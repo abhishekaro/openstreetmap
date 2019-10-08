@@ -45,12 +45,12 @@
     "joi": "^14.0.0",
     "lodash": "^4.17.4",
     "merge": "^1.2.0",
-    "pbf2json": "^6.1.0",
+    "pbf2json": "github:abhishekaro/pbf2json",
     "pelias-blacklist-stream": "^1.0.0",
-    "pelias-config": "^4.0.0",
-    "pelias-dbclient": "^2.8.0",
+    "pelias-config": "github:abhishekaro/config",
+    "pelias-dbclient": "github:abhishekaro/dbclient",
     "pelias-logger": "^1.2.1",
-    "pelias-model": "^7.0.0",
+    "pelias-model": "github:abhishekaro/model",
     "pelias-wof-admin-lookup": "^5.3.0",
     "through2": "^3.0.0",
     "through2-sink": "^1.0.0"
@@ -70,11 +70,6 @@
     "tape": "^4.0.0",
     "tmp": "0.1.0"
   },
-  "pre-commit": [
-    "lint",
-    "validate",
-    "test"
-  ],
   "release": {
     "branch": "master",
     "success": []

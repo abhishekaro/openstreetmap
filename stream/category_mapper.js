@@ -44,11 +44,13 @@ module.exports = function( mapping ){
           addCategories( doc, mapping[key]['*'] );
         }
 
+        addCategories( doc, key );
+
         // handle regular features
         for( var feature in mapping[key] ){
           if( '*' === feature ){ continue; }
           if( tags[key] === feature ){
-            addCategories( doc, mapping[key][feature] );
+            addCategories( doc, feature );
           }
         }
       }

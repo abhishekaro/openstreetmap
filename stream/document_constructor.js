@@ -9,10 +9,27 @@ const Document = require('pelias-model').Document;
 const peliasLogger = require( 'pelias-logger' ).get( 'openstreetmap' );
 const _ = require('lodash');
 
+// https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-shape.html#geo-polygon
+function getGeoShapeObjectFromNodes(nodes) {
+  var coordinates = [];
+  for (idx in nodes) {
+    var node = nodes[idx];
+    coordinates.push([parseFloat(node.lon), parseFloat(node.lat)]);
+  }
+  let polygon = {
+    "type" : "polygon",
+    "coordinates" : [coordinates]
+  };
+  peliasLogger.info(polygon);
+  return polygon;
+}
+
 module.exports = function(){
 
   var stream = through.obj( function( item, enc, next ) {
 
+    peliasLogger.info(item);
+    
     try {
       if (!item.type || ! item.id) {
         throw new Error('doc without valid id or type');
@@ -38,6 +55,14 @@ module.exports = function(){
             lon: item.centroid.lon
           });
         }
+      }
+
+      //set polygon from OSM Ways
+      if(item.hasOwnProperty('nodes')) {
+        peliasLogger.info(item.nodes);
+        doc.setPolygon(getGeoShapeObjectFromNodes(item.nodes))
+      } else {
+        peliasLogger.warn("No Nodes");
       }
 
       // set bounding box
@@ -74,3 +99,4 @@ module.exports = function(){
 
   return stream;
 };
+
